@@ -18,7 +18,12 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary" @click.stop="autenticar">Login</v-btn>
+
             </v-card-actions>
+
+              <v-flex>
+                 <v-btn flat small color="primary"  @click="navigate('/sign-up')">Registrate</v-btn>
+              </v-flex>
           </v-card>
         </v-flex>
       </v-layout>
@@ -73,7 +78,10 @@ methods:{
          this.snackbar=true;
        }
      });
-  }
+  },
+  navigate(uri){
+    this.$router.push({path:uri});
+  },
 }
 }
 </script>
