@@ -1,6 +1,6 @@
 <template>
 
-    <v-app id="inspire">
+    <v-app id="inspire" dark>
       <v-navigation-drawer
         v-model="drawer"
         fixed
@@ -13,36 +13,31 @@
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>
-              Home
-
-
+                Inicio
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile @click="navigate('/about')">
             <v-list-tile-action>
-              <v-icon>contact_mail</v-icon>
+              <v-icon>settings</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>
-              About
+                 Configuración
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
-      <v-toolbar color="indigo" dark fixed app>
+      <v-toolbar dark fixed app>
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title>Application</v-toolbar-title>
+        <v-toolbar-title>GoPichanga</v-toolbar-title>
       </v-toolbar>
       <v-content>
-        <v-container fluid >
+        <v-container  >
           <router-view/>
         </v-container>
       </v-content>
-      <v-footer color="indigo" app>
-        <span class="white--text">&copy; 2017</span>
-      </v-footer>
     </v-app>
 
 </template>
@@ -56,7 +51,6 @@
     },
     methods:{
       navigate(uri){
-        console.log(uri);
         this.$router.push({path:uri});
       }
     }
