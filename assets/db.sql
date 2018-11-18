@@ -18,7 +18,7 @@ contrasenia varchar(200),
 perfil varchar(500),
 rol int not null default 0,
 tipo_usuario int not null default 0,
-foreing key(id_persona) references persona(id)
+foreign key(id_persona) references persona(id)
 );
 
 create table cancha(
@@ -36,7 +36,7 @@ id int not null primary key auto_increment,
 id_cancha int not null,
 imagen varchar(500),
 descripcion text,
-foreing key(id_cancha) references cancha(id)
+foreign key(id_cancha) references cancha(id)
 );
 
 create table partido(
@@ -47,8 +47,8 @@ descripcion text,
 fecha_inicio datetime,
 fecha_fin datetime,
 estado  int not null default 0,
-foreing key(id_usuario) references usuario(id),
-foreing key(id_cancha) references cancha(id)
+foreign key(id_usuario) references usuario(id),
+foreign key(id_cancha) references cancha(id)
 );
 
 

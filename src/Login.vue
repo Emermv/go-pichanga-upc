@@ -22,8 +22,28 @@
           </v-card>
         </v-flex>
       </v-layout>
+      <v-snackbar
+          v-model="snackbar"
+          :bottom="y === 'bottom'"
+          :left="x === 'left'"
+          :multi-line="mode === 'multi-line'"
+          :right="x === 'right'"
+          :timeout="timeout"
+          :top="y === 'top'"
+          :vertical="mode === 'vertical'"
+        >
+          {{ text }}
+          <v-btn
+            color="pink"
+            flat
+            @click="snackbar = false"
+          >
+            Close
+          </v-btn>
+        </v-snackbar>
     </v-container>
   </v-content>
+
 </v-app>
 </template>
 
@@ -31,14 +51,28 @@
 export default {
   data: () => ({
     user:'',
-    password:''
+    password:'',
+        snackbar: false,
+         y: 'top',
+         x: null,
+         mode: '',
+         timeout: 6000,
+         text: 'Usuario y/o contraseña incorrecta!'
   }),
 methods:{
   autenticar(){
     let form=new FormData();
     form.append("user",this.user);
     form.append("password",this.password);
-
+     axios.post("/user/autenticate",form).then(r=>{
+       console.log(r)
+       if(r.data.state){
+         localStorage.setItem("user",JSON.stringify(r.data.user));
+         location.reload();
+       }else{
+         this.snackbar=true;
+       }
+     });
   }
 }
 }
