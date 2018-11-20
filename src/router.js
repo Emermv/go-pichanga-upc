@@ -24,7 +24,17 @@ export default new Router({
     {
       path:'/sign-up',
       name:'sign-up',
-      component:()=>import('./views/Sign-up.vue') 
+      component:()=>import('./views/Sign-up.vue')
+    },
+    {
+      path:'/cancha',
+      name:'cancha',
+      component:()=>import('./views/Cancha.vue')
+    },
+    {
+      path:'/pichanga',
+      name:'pichanga',
+      component:()=>import('./views/Pichanga.vue')
     }
   ]
 })

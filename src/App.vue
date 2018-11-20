@@ -17,6 +17,26 @@
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
+          <v-list-tile @click="navigate('/cancha')">
+            <v-list-tile-action>
+              <v-icon>view_day</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                 Administrar canchas
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile @click="navigate('/pichanga')">
+            <v-list-tile-action>
+              <v-icon>ballot</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                 Crear pichanga
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
           <v-list-tile @click="navigate('/about')">
             <v-list-tile-action>
               <v-icon>settings</v-icon>
@@ -27,6 +47,7 @@
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
+
         </v-list>
       </v-navigation-drawer>
       <v-toolbar dark fixed app>
@@ -46,19 +67,19 @@
     size="40px"
     color="grey lighten-4"
   >
-     <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+     <img :src="user.perfil">
   </v-avatar>
 
      <v-card>
        <v-list>
          <v-list-tile avatar>
            <v-list-tile-avatar>
-             <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+             <img :src="user.perfil" >
            </v-list-tile-avatar>
 
            <v-list-tile-content>
              <v-list-tile-title>{{user.nombre}}</v-list-tile-title>
-             <v-list-tile-sub-title>{{user.descripcion}}</v-list-tile-sub-title>
+             <v-list-tile-sub-title>{{user.biografia}}</v-list-tile-sub-title>
            </v-list-tile-content>
 
            <v-list-tile-action>
@@ -67,7 +88,7 @@
                icon
                @click="fav = !fav"
              >
-               <v-icon>favorite</v-icon>
+               <v-icon>star</v-icon>
              </v-btn>
            </v-list-tile-action>
          </v-list-tile>
@@ -97,7 +118,6 @@
            <v-list-tile-title>Salir</v-list-tile-title>
          </v-list-tile>
        </v-list>
-
      </v-card>
    </v-menu>
       </v-toolbar>

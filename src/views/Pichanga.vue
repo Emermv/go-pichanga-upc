@@ -7,7 +7,7 @@
 
        <v-divider></v-divider>
 
-       <v-stepper-step :complete="stepper > 2" step="2">Usuario</v-stepper-step>
+       <v-stepper-step :complete="stepper > 2" step="2">Referencias</v-stepper-step>
 
        <v-divider></v-divider>
 
@@ -21,47 +21,28 @@
   <div class="layout wrap">
                <v-flex xs12 sm6 md6>
              <v-text-field
-            v-model="user.nombre"
+            v-model="row.nombre"
             :rules="[v => !!v || 'Name is required']"
             label="Nombres"
             required
             ></v-text-field>
             </v-flex>
             <v-flex xs12 sm6 md6>
-              <v-menu
-        ref="datepicker_menu"
-        :close-on-content-click="false"
-        v-model="menu1"
-        :nudge-right="40"
-        lazy
-        transition="scale-transition"
-        offset-y
-        full-width
-        max-width="290px"
-        min-width="290px"
-      >
-        <v-text-field
-          slot="activator"
-          v-model="user.fecha_nacimiento"
-          label="Fecha de nacimiento"
-          hint="YYYY-MM-DD"
-          persistent-hint
-          prepend-icon="event"
-
-        ></v-text-field>
-        <v-date-picker v-model="user.fecha_nacimiento"  @input="menu1 = false" ref="picker"
-        :max="new Date().toISOString().substr(0, 10)"
-      min="1950-01-01"></v-date-picker>
-      </v-menu>
+              <v-text-field
+             v-model="row.direccion"
+             :rules="[v => !!v || 'Name is required']"
+             label="Dirección"
+             required
+             ></v-text-field>
               </v-flex>
         <v-flex xs12 sm12 md12>
                 <v-radio-group v-model="user.genero" row>
      <v-radio
-       label="Masculino"
+       label="Privado"
        value="M"
      ></v-radio>
      <v-radio
-       label="Femenino"
+       label="Público"
        value="F"
      ></v-radio>
    </v-radio-group>
@@ -183,6 +164,7 @@ export default {
      return {
        stepper:0,
        valid:false,
+       row:{},
        user:{fecha_nacimiento:moment(new Date()).format('YYYY-MM-DD'),genero:'M',tipo_usuario:'0',rol:'0'},
        menu1: false,
       types:[{field:'1',text:'Proveedor'},{field:'0',text:'Pichanguero'}],
@@ -212,7 +194,7 @@ export default {
         if (this.$refs.form.validate()) {
           var data=Helpers.serialize(this.user);
           data.append('perfil',this.imageFile);
-          axios.post($_SESSION.API+'/user/create',data).then(r=>{
+          axios.post($_SESSION.API+'/cancha/create',data).then(r=>{
             console.log(r);
           });
         }

@@ -1,11 +1,12 @@
+drop table if exists usuario;
 drop table if exists persona;
 create table persona(
   id int not null primary key auto_increment,
   nombre varchar(500),
-  edad int,
+  fecha_nacimiento datetime,
   genero char(1),
   direccion varchar(1500),
-  descripcion text,
+  biografia text,
   estado int not null default 1
 );
 
