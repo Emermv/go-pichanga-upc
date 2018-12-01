@@ -99,6 +99,7 @@ v-model="user.contrasenia"
 :rules="[v => !!v || 'La contraseña es requerido']"
 label="Contraseña"
 required
+type="password"
 ></v-text-field>
 </v-flex>
  <v-flex xs12 sm6 md6>

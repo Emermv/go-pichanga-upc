@@ -1,183 +1,213 @@
 <template>
-<div>
-  <v-form v-model="valid"  ref="form">
-  <v-stepper v-model="stepper">
-     <v-stepper-header>
-       <v-stepper-step :complete="stepper>1" step="1">General</v-stepper-step>
+<div style="position:relative">
 
-       <v-divider></v-divider>
+    <data-grid
+      :sql="sql"
+      :columns="columns"
+      :responsive-columns="responsiveColumns"
+      :search-columns="searchColumns"
+      order-by="c.id"
+       ref="grid"
 
-       <v-stepper-step :complete="stepper > 2" step="2">Referencias</v-stepper-step>
+        :show-more-options="false"
+        :has-actions="true"
+      >
 
-       <v-divider></v-divider>
+      </data-grid>
 
-       <v-stepper-step step="3">Fin</v-stepper-step>
-     </v-stepper-header>
+      <v-fab-transition >
+                   <v-btn
+                     color="blue"
 
-     <v-stepper-items>
-       <v-stepper-content step="1">
-         <v-card class="mb-5" >
-           <div  class="container grid-list-md">
-  <div class="layout wrap">
-               <v-flex xs12 sm6 md6>
-             <v-text-field
-            v-model="row.nombre"
-            :rules="[v => !!v || 'Name is required']"
-            label="Nombres"
-            required
-            ></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm6 md6>
-              <v-text-field
-             v-model="row.direccion"
-             :rules="[v => !!v || 'Name is required']"
-             label="Dirección"
-             required
-             ></v-text-field>
-              </v-flex>
-        <v-flex xs12 sm12 md12>
-                <v-radio-group v-model="user.genero" row>
-     <v-radio
-       label="Privado"
-       value="M"
-     ></v-radio>
-     <v-radio
-       label="Público"
-       value="F"
-     ></v-radio>
-   </v-radio-group>
+                     dark
+
+                      style="position:fixed;z-index:4440;bottom:15px"
+                     right
+                     fab
+               @click="add_dialog=true"
+                   >
+                     <v-icon>add</v-icon>
+                   </v-btn>
+                 </v-fab-transition>
+
+                 <v-dialog v-model="add_dialog" >
+
+      <v-card>
+        <v-card-title>
+          <span class="headline">Crear cancha</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form v-model="valid"  ref="form">
+          <v-stepper v-model="stepper">
+             <v-stepper-header>
+               <v-stepper-step :complete="stepper>1" step="1">General</v-stepper-step>
+
+               <v-divider></v-divider>
+
+               <v-stepper-step :complete="stepper > 2" step="2">Referencias</v-stepper-step>
+
+               <v-divider></v-divider>
+
+               <v-stepper-step step="3">Fin</v-stepper-step>
+             </v-stepper-header>
+
+             <v-stepper-items>
+               <v-stepper-content step="1">
+                 <v-card class="mb-5" >
+                   <div  class="container grid-list-md">
+          <div class="layout wrap">
+                       <v-flex xs12 sm6 md6>
+                     <v-text-field
+                    v-model="row.nombre"
+                    :rules="[v => !!v || 'Name is required']"
+                    label="Nombre"
+                    required
+                    ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm6 md6>
+                      <v-text-field
+                     v-model="row.direccion"
+                     :rules="[v => !!v || 'Direction is required']"
+                     label="Dirección"
+                     required
+                     ></v-text-field>
+                      </v-flex>
+                <v-flex xs12 sm12 md12>
+                        <v-radio-group v-model="row.tipo" row>
+             <v-radio
+               label="Privado"
+               value="0"
+             ></v-radio>
+             <v-radio
+               label="Público"
+               value="1"
+             ></v-radio>
+           </v-radio-group>
+                  </v-flex>
+                </div>
+                </div>
+               </v-card>
+
+
+                 <v-btn
+                   color="primary"
+                   @click="stepper = 2"
+                 >
+                   Continuar
+                 </v-btn>
+
+               </v-stepper-content>
+
+               <v-stepper-content step="2">
+                 <v-card
+                   class="mb-5">
+                   <div  class="container grid-list-md">
+          <div class="layout wrap">
+
+          <v-flex xs12 sm12 md12>
+          <v-carousel hide-delimiters v-show="images.length>0" height="300">
+            <v-carousel-item
+              v-for="(item,i) in images"
+              :key="i"
+              :src="item.src"
+            ></v-carousel-item>
+          </v-carousel>
           </v-flex>
-        </div>
-        </div>
-       </v-card>
+          <v-flex xs12 sm12 md12>
+
+          <v-text-field
+          v-model="imageName"
+          label="Foto"
+          prepend-icon='attach_file'
+          @click='pickFile'
+          ></v-text-field>
+          <input
+                    type="file"
+                    style="display: none"
+                    ref="image"
+                    multiple
+                    accept="image/*"
+                    @change="onFilePicked"
+                  >
+          </v-flex>
+
+            </div>
+            </div>
+               </v-card>
+
+                 <v-btn
+                   color="primary"
+                   @click="stepper = 3">Continuar</v-btn>
+
+                 <v-btn flat @click="stepper=1">Anterior</v-btn>
+               </v-stepper-content>
+
+               <v-stepper-content step="3">
+                 <v-card
+                   class="mb-5">
+                   <div  class="container grid-list-md">
+          <div class="layout wrap">
+            <v-flex xs12 sm12 md12>
+              <v-textarea
+          v-model="row.descripcion"
+          box
+          label="Descripción"
+          auto-grow
+          ></v-textarea>
+              </v-flex>
+              </div>
+              </div>
+
+                 </v-card>
 
 
-         <v-btn
-           color="primary"
-           @click="stepper = 2"
-         >
-           Continuar
-         </v-btn>
+                 <v-btn flat  @click="stepper=2">Anterior</v-btn>
+               </v-stepper-content>
+             </v-stepper-items>
+           </v-stepper>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click="add_dialog = false">Cerrar</v-btn>
+          <v-btn color="blue darken-1" flat @click="save">Guardar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
-       </v-stepper-content>
-
-       <v-stepper-content step="2">
-         <v-card
-           class="mb-5">
-           <div  class="container grid-list-md">
-  <div class="layout wrap">
-    <v-flex xs12 sm6 md6>
-  <v-text-field
- v-model="user.usuario"
- :rules="[v => !!v || 'Usuario es requerido']"
- label="Usuario"
- required
- ></v-text-field>
- </v-flex>
- <v-flex xs12 sm6 md6>
-<v-text-field
-v-model="user.contrasenia"
-:rules="[v => !!v || 'La contraseña es requerido']"
-label="Contraseña"
-required
-></v-text-field>
-</v-flex>
- <v-flex xs12 sm6 md6>
-<v-select
-v-model="user.tipo_usuario"
-:items="types"
-item-text="text"
-  item-value="field"
-label="Tipo"></v-select>
-</v-flex>
-<v-flex xs12 sm6 md6>
-<v-text-field
-v-model="imageName"
-label="Avatar"
-prepend-icon='attach_file'
-@click='pickFile'
-></v-text-field>
-<input
-						type="file"
-						style="display: none"
-						ref="image"
-						accept="image/*"
-						@change="onFilePicked"
-					>
-</v-flex>
-<v-flex xs12 sm6 md6 v-if="user.tipo_usuario==0">
-<v-select
-v-model="user.rol"
-:items="roles"
-item-text="text"
- item-value="field"
-label="Rol"></v-select>
-</v-flex>
-    </div>
-    </div>
-       </v-card>
-
-         <v-btn
-           color="primary"
-           @click="stepper = 3">Continuar</v-btn>
-
-         <v-btn flat @click="stepper=1">Anterior</v-btn>
-       </v-stepper-content>
-
-       <v-stepper-content step="3">
-         <v-card
-           class="mb-5">
-           <div  class="container grid-list-md">
-  <div class="layout wrap">
-    <v-flex xs12 sm12 md12>
-      <v-textarea
-v-model="user.biografia"
-box
-label="Descripción"
-auto-grow
-></v-textarea>
-      </v-flex>
-      </div>
-      </div>
-
-         </v-card>
-
-         <v-btn
-           color="primary"
-           @click="save"
-         >
-           Guardar
-         </v-btn>
-
-         <v-btn flat  @click="stepper=2">Anterior</v-btn>
-       </v-stepper-content>
-     </v-stepper-items>
-   </v-stepper>
- </v-form>
 </div>
 </template>
 <script>
 import Helpers from '@/scripts/Helpers'
+
 export default {
-  name: 'sign-up',
+  name: 'cancha',
   data () {
      return {
        stepper:0,
        valid:false,
-       row:{},
-       user:{fecha_nacimiento:moment(new Date()).format('YYYY-MM-DD'),genero:'M',tipo_usuario:'0',rol:'0'},
+       add_dialog:false,
+       row:{tipo:'1',latitud:100,longitud:100,altitud:400},
+       images:[],
+       image_files:[],
        menu1: false,
-      types:[{field:'1',text:'Proveedor'},{field:'0',text:'Pichanguero'}],
-      roles:[
-      {field:'0',text:'Guardameta'},
-      {field:'1',text:'Defensa'},
-      {field:'2',text:'Volante'},
-      {field:'3',text:'Delantero'},
-
-      ],
       imageName: '',
       imageUrl: '',
-      imageFile: ''
+      imageFile: '',
+      sql:'select c.nombre,c.direccion,c.tipo from cancha as c  where 1=1 [[filters]]',
+      searchColumns: [
+         { column: "p.nombre", label: 'Nombre' },
+         { column: 'p.direccion', label: 'Dirección' },
+     ],
+     columns: [
+         { label: 'Nombre', column: 'nombre' },
+         { label: 'Dirección', column: 'direccion' },
+
+     ],
+     responsiveColumns: [
+         { column: 'nombre', },
+         { column: 'direccion' },
+     ],
      }
    },
    mounted:function(){
@@ -190,36 +220,58 @@ export default {
    },
    methods:{
      save(){
-       console.log(this.user)
+       console.log(this.row)
+
         if (this.$refs.form.validate()) {
-          var data=Helpers.serialize(this.user);
-          data.append('perfil',this.imageFile);
+          var data=Helpers.serialize(this.row);
+          data.append('id_usuario',$_SESSION.user.id);
+          var i=0;
+          for(var img of this.image_files){
+            data.append('image-'+i,img);
+            i++;
+          }
+          data.append('image_size',i);
+
           axios.post($_SESSION.API+'/cancha/create',data).then(r=>{
-            console.log(r);
+            this.add_dialog=false;
+            if(r.data.state){
+              this.$refs.grid.getData(true);
+            }
+            swal({
+  title: "Alerta!",
+  text: r.data.message,
+  icon: r.data.state?"success":"error",
+  button: "Ok",
+});
           });
         }
      },
      pickFile () {
          this.$refs.image.click();
+         this.image_files=[];
+         this.images=[];
      },
 
  onFilePicked (e) {
 
    const files = e.target.files;
-   console.log(files)
+   console.log(files);
    if(files[0] !== undefined) {
+
      this.imageName = files[0].name
      if(this.imageName.lastIndexOf('.') <= 0) {
        return
      }
-    /* const fr = new FileReader ();
-     fr.readAsDataURL(files[0])
-     fr.addEventListener('load', () => {
-       this.imageUrl = fr.result
-       this.imageFile = files[0] // this is an image file that can be sent to server...
-     })*/
-     this.imageFile = files[0];
-   } else {
+    for(var img of files){
+      const fr = new FileReader();
+      fr.readAsDataURL(img);
+      fr.addEventListener('load', () => {
+        this.images.push({src:fr.result});
+        this.image_files.push(img);
+      });
+    }
+
+   }else{
      this.imageName = ''
      this.imageFile = ''
      this.imageUrl = ''

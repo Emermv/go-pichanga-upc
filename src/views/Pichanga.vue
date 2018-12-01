@@ -1,159 +1,162 @@
 <template>
 <div>
-  <v-form v-model="valid"  ref="form">
-  <v-stepper v-model="stepper">
-     <v-stepper-header>
-       <v-stepper-step :complete="stepper>1" step="1">General</v-stepper-step>
+  <v-container>
+    <v-form v-model="valid"  ref="form">
+    <v-stepper v-model="stepper">
+       <v-stepper-header>
+         <v-stepper-step :complete="stepper>1" step="1">General</v-stepper-step>
 
-       <v-divider></v-divider>
+         <v-divider></v-divider>
 
-       <v-stepper-step :complete="stepper > 2" step="2">Referencias</v-stepper-step>
+         <v-stepper-step :complete="stepper > 2" step="2">Referencias</v-stepper-step>
 
-       <v-divider></v-divider>
+         <v-divider></v-divider>
 
-       <v-stepper-step step="3">Fin</v-stepper-step>
-     </v-stepper-header>
+         <v-stepper-step step="3">Fin</v-stepper-step>
+       </v-stepper-header>
 
-     <v-stepper-items>
-       <v-stepper-content step="1">
-         <v-card class="mb-5" >
-           <div  class="container grid-list-md">
-  <div class="layout wrap">
-               <v-flex xs12 sm6 md6>
-             <v-text-field
-            v-model="row.nombre"
-            :rules="[v => !!v || 'Name is required']"
-            label="Nombres"
-            required
-            ></v-text-field>
-            </v-flex>
-            <v-flex xs12 sm6 md6>
-              <v-text-field
-             v-model="row.direccion"
-             :rules="[v => !!v || 'Name is required']"
-             label="Dirección"
-             required
-             ></v-text-field>
+       <v-stepper-items>
+         <v-stepper-content step="1">
+           <v-card class="mb-5" >
+             <div  class="container grid-list-md">
+    <div class="layout wrap">
+                 <v-flex xs12 sm6 md6>
+               <v-text-field
+              v-model="row.nombre"
+              :rules="[v => !!v || 'Name is required']"
+              label="Nombres"
+              required
+              ></v-text-field>
               </v-flex>
-        <v-flex xs12 sm12 md12>
-                <v-radio-group v-model="user.genero" row>
-     <v-radio
-       label="Privado"
-       value="M"
-     ></v-radio>
-     <v-radio
-       label="Público"
-       value="F"
-     ></v-radio>
-   </v-radio-group>
-          </v-flex>
-        </div>
-        </div>
-       </v-card>
-
-
-         <v-btn
-           color="primary"
-           @click="stepper = 2"
-         >
-           Continuar
-         </v-btn>
-
-       </v-stepper-content>
-
-       <v-stepper-content step="2">
-         <v-card
-           class="mb-5">
-           <div  class="container grid-list-md">
-  <div class="layout wrap">
-    <v-flex xs12 sm6 md6>
-  <v-text-field
- v-model="user.usuario"
- :rules="[v => !!v || 'Usuario es requerido']"
- label="Usuario"
- required
- ></v-text-field>
- </v-flex>
- <v-flex xs12 sm6 md6>
-<v-text-field
-v-model="user.contrasenia"
-:rules="[v => !!v || 'La contraseña es requerido']"
-label="Contraseña"
-required
-></v-text-field>
-</v-flex>
- <v-flex xs12 sm6 md6>
-<v-select
-v-model="user.tipo_usuario"
-:items="types"
-item-text="text"
-  item-value="field"
-label="Tipo"></v-select>
-</v-flex>
-<v-flex xs12 sm6 md6>
-<v-text-field
-v-model="imageName"
-label="Avatar"
-prepend-icon='attach_file'
-@click='pickFile'
-></v-text-field>
-<input
-						type="file"
-						style="display: none"
-						ref="image"
-						accept="image/*"
-						@change="onFilePicked"
-					>
-</v-flex>
-<v-flex xs12 sm6 md6 v-if="user.tipo_usuario==0">
-<v-select
-v-model="user.rol"
-:items="roles"
-item-text="text"
- item-value="field"
-label="Rol"></v-select>
-</v-flex>
-    </div>
-    </div>
-       </v-card>
-
-         <v-btn
-           color="primary"
-           @click="stepper = 3">Continuar</v-btn>
-
-         <v-btn flat @click="stepper=1">Anterior</v-btn>
-       </v-stepper-content>
-
-       <v-stepper-content step="3">
-         <v-card
-           class="mb-5">
-           <div  class="container grid-list-md">
-  <div class="layout wrap">
-    <v-flex xs12 sm12 md12>
-      <v-textarea
-v-model="user.biografia"
-box
-label="Descripción"
-auto-grow
-></v-textarea>
-      </v-flex>
-      </div>
-      </div>
-
+              <v-flex xs12 sm6 md6>
+                <v-text-field
+               v-model="row.direccion"
+               :rules="[v => !!v || 'Name is required']"
+               label="Dirección"
+               required
+               ></v-text-field>
+                </v-flex>
+          <v-flex xs12 sm12 md12>
+                  <v-radio-group v-model="user.genero" row>
+       <v-radio
+         label="Privado"
+         value="M"
+       ></v-radio>
+       <v-radio
+         label="Público"
+         value="F"
+       ></v-radio>
+     </v-radio-group>
+            </v-flex>
+          </div>
+          </div>
          </v-card>
 
-         <v-btn
-           color="primary"
-           @click="save"
-         >
-           Guardar
-         </v-btn>
 
-         <v-btn flat  @click="stepper=2">Anterior</v-btn>
-       </v-stepper-content>
-     </v-stepper-items>
-   </v-stepper>
- </v-form>
+           <v-btn
+             color="primary"
+             @click="stepper = 2"
+           >
+             Continuar
+           </v-btn>
+
+         </v-stepper-content>
+
+         <v-stepper-content step="2">
+           <v-card
+             class="mb-5">
+             <div  class="container grid-list-md">
+    <div class="layout wrap">
+      <v-flex xs12 sm6 md6>
+    <v-text-field
+   v-model="user.usuario"
+   :rules="[v => !!v || 'Usuario es requerido']"
+   label="Usuario"
+   required
+   ></v-text-field>
+   </v-flex>
+   <v-flex xs12 sm6 md6>
+  <v-text-field
+  v-model="user.contrasenia"
+  :rules="[v => !!v || 'La contraseña es requerido']"
+  label="Contraseña"
+  required
+  ></v-text-field>
+  </v-flex>
+   <v-flex xs12 sm6 md6>
+  <v-select
+  v-model="user.tipo_usuario"
+  :items="types"
+  item-text="text"
+    item-value="field"
+  label="Tipo"></v-select>
+  </v-flex>
+  <v-flex xs12 sm6 md6>
+  <v-text-field
+  v-model="imageName"
+  label="Avatar"
+  prepend-icon='attach_file'
+  @click='pickFile'
+  ></v-text-field>
+  <input
+  						type="file"
+  						style="display: none"
+  						ref="image"
+  						accept="image/*"
+  						@change="onFilePicked"
+  					>
+  </v-flex>
+  <v-flex xs12 sm6 md6 v-if="user.tipo_usuario==0">
+  <v-select
+  v-model="user.rol"
+  :items="roles"
+  item-text="text"
+   item-value="field"
+  label="Rol"></v-select>
+  </v-flex>
+      </div>
+      </div>
+         </v-card>
+
+           <v-btn
+             color="primary"
+             @click="stepper = 3">Continuar</v-btn>
+
+           <v-btn flat @click="stepper=1">Anterior</v-btn>
+         </v-stepper-content>
+
+         <v-stepper-content step="3">
+           <v-card
+             class="mb-5">
+             <div  class="container grid-list-md">
+    <div class="layout wrap">
+      <v-flex xs12 sm12 md12>
+        <v-textarea
+  v-model="user.biografia"
+  box
+  label="Descripción"
+  auto-grow
+  ></v-textarea>
+        </v-flex>
+        </div>
+        </div>
+
+           </v-card>
+
+           <v-btn
+             color="primary"
+             @click="save"
+           >
+             Guardar
+           </v-btn>
+
+           <v-btn flat  @click="stepper=2">Anterior</v-btn>
+         </v-stepper-content>
+       </v-stepper-items>
+     </v-stepper>
+   </v-form>
+</v-container>
+
 </div>
 </template>
 <script>
