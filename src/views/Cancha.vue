@@ -12,7 +12,18 @@
         :show-more-options="false"
         :has-actions="true"
       >
-
+      <template slot="row-actions" slot-scope="props">
+           <button type="button" class="v-btn v-btn--flat v-btn--icon theme--light " @click="edit(props.row)">
+             <div class="v-btn__content">
+               <i aria-hidden="true" class="v-icon material-icons theme--light">mode_edit</i>
+             </div>
+           </button>
+           <button type="button" class="v-btn v-btn--flat v-btn--icon theme--light danger-tex" @click="_delete(props.row)">
+             <div class="v-btn__content">
+               <i aria-hidden="true" class="v-icon material-icons theme--light">delete</i>
+             </div>
+           </button>
+         </template>
       </data-grid>
 
       <v-fab-transition >
@@ -196,8 +207,8 @@ export default {
       imageFile: '',
       sql:'select c.nombre,c.direccion,c.tipo from cancha as c  where 1=1 [[filters]]',
       searchColumns: [
-         { column: "p.nombre", label: 'Nombre' },
-         { column: 'p.direccion', label: 'Dirección' },
+         { column: "c.nombre", label: 'Nombre' },
+         { column: 'c.direccion', label: 'Dirección' },
      ],
      columns: [
          { label: 'Nombre', column: 'nombre' },
@@ -219,6 +230,12 @@ export default {
      }
    },
    methods:{
+     edit(row){
+       console.log(row)
+     },
+     _delete(row){
+
+     },
      save(){
        console.log(this.row)
 

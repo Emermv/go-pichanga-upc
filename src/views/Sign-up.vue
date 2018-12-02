@@ -77,7 +77,12 @@
          >
            Continuar
          </v-btn>
+         <v-btn
 
+           @click="goLogin"
+         >
+           Cancelar
+         </v-btn>
        </v-stepper-content>
 
        <v-stepper-content step="2">
@@ -144,9 +149,9 @@ label="Rol"></v-select>
          <v-btn flat @click="stepper=1">Anterior</v-btn>
        </v-stepper-content>
 
-       <v-stepper-content step="3">
+       <v-stepper-content step="3" >
          <v-card
-           class="mb-5">
+           class="mb-5" >
            <div  class="container grid-list-md">
   <div class="layout wrap">
     <v-flex xs12 sm12 md12>
@@ -179,7 +184,6 @@ auto-grow
 <script>
 import Helpers from '@/scripts/Helpers'
 export default {
-  name: 'sign-up',
   data () {
      return {
        stepper:0,
@@ -213,8 +217,16 @@ export default {
         if (this.$refs.form.validate()) {
           var data=Helpers.serialize(this.user);
           data.append('perfil',this.imageFile);
-          axios.post($_SESSION.API+'/user/create',data).then(r=>{
+          axios.post('/user/create',data).then(r=>{
             console.log(r);
+            if(r.data.state){
+              swal("Alerta!","El usuario se ha creado satisfactoriamente","success");
+              this.goLogin();
+
+            }else{
+              swal("Alerta!","Ocurrió un error inesperado al crear el usuario, por favor intentelo más tarde","error");
+            }
+
           });
         }
      },
@@ -243,6 +255,9 @@ export default {
      this.imageFile = ''
      this.imageUrl = ''
    }
+ },
+ goLogin(){
+   this.$emit("show-login",true);
  }
    }
 }

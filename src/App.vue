@@ -6,7 +6,19 @@
         fixed
         app
       >
+      <v-card>
+               <v-img
+                 src="https://lh5.googleusercontent.com/NkVBSxgVSAXpikP0GKNGtipVmsgR93xlkUy63-ZJ2a6mSMSO3WHZc2hcPj8QGmzC7uIJJn4xXDDgeoNkrHCM=w1920-h903"
+                 height="200px"
+               >
+
+               </v-img>
+
+             </v-card>
+
         <v-list dense>
+            <v-list-tile @click="navigate('/')">
+            </v-list-tile>
           <v-list-tile @click="navigate('/')">
             <v-list-tile-action>
               <v-icon>home</v-icon>
@@ -29,7 +41,7 @@
           </v-list-tile>
           <v-list-tile @click="navigate('/pichanga')">
             <v-list-tile-action>
-              <v-icon>ballot</v-icon>
+              <v-icon>settings</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>
@@ -124,7 +136,7 @@
       <v-content>
 
           <router-view/>
-      
+
       </v-content>
     </v-app>
 
@@ -138,7 +150,8 @@
       menu: false,
       message: false,
       hints: true,
-      user:$_SESSION.user
+      user:$_SESSION.user,
+
     }),
     props: {
       source: String
