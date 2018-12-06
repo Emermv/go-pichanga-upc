@@ -53,10 +53,10 @@
 
 
         <v-list subheader>
-          <v-subheader>Recent chat</v-subheader>
+          <v-subheader>Recientes</v-subheader>
           <v-list-tile
-            v-for="item in items"
-            :key="item.title"
+            v-for="item in recents"
+            :key="item.id"
             avatar
             @click=""
           >
@@ -65,7 +65,9 @@
             </v-list-tile-avatar>
 
             <v-list-tile-content>
-              <v-list-tile-title v-html="item.title"></v-list-tile-title>
+              <v-list-tile-title v-html="item.descripcion"></v-list-tile-title>
+                <v-list-tile-sub-title v-html="item.fechainicio"></v-list-tile-sub-title>
+                <v-list-tile-sub-title v-html="item.fechafin"></v-list-tile-sub-title>
             </v-list-tile-content>
 
             <v-list-tile-action>
@@ -76,24 +78,6 @@
 
         <v-divider></v-divider>
 
-        <v-list subheader>
-          <v-subheader>Previous chats</v-subheader>
-
-          <v-list-tile
-            v-for="item in items2"
-            :key="item.title"
-            avatar
-            @click=""
-          >
-            <v-list-tile-avatar>
-              <img :src="item.avatar">
-            </v-list-tile-avatar>
-
-            <v-list-tile-content>
-              <v-list-tile-title v-html="item.title"></v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
       </v-card>
     </v-flex>
   </v-layout>
@@ -151,14 +135,7 @@ export default {
        map:null,
        marker:null,
        maps:{results:null},
-       items: [
-         { active: true, title: 'Jason Oner', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg' },
-         { active: true, title: 'Ranee Carlson', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg' },
-         { title: 'Cindy Baker', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg' },
-         { title: 'Ali Connors', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg' }
-       ],
-       items2: [
-         { title: 'Travis Howard', avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg' }
+       recents: [,
        ],
        items_fav: [
           { header: 'Today' },
@@ -196,6 +173,12 @@ export default {
    },
    created:function(){
      this.getLocation();
+     axios.get($_SESSION.API+'/match/recents').then(response=>{
+       console.log(response)
+       if(response.data.state){
+         this.recents=response.data.rows;
+       }
+     });
    },
    mounted:function(){
 
