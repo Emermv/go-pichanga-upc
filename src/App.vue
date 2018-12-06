@@ -8,7 +8,7 @@
       >
       <v-card>
                <v-img
-                 src="https://lh5.googleusercontent.com/NkVBSxgVSAXpikP0GKNGtipVmsgR93xlkUy63-ZJ2a6mSMSO3WHZc2hcPj8QGmzC7uIJJn4xXDDgeoNkrHCM=w1920-h903"
+                 src="http://localhost/go-api/logo.png"
                  height="200px"
                >
 
